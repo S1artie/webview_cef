@@ -21,10 +21,10 @@ Flutter webview backed by CEF (Chromium Embedded Framework)
 
   $dir = File.dirname(__FILE__)
   $dir = $dir + "/third/cef/**"
-  s.xcconfig = { "HEADER_SEARCH_PATHS" => $dir}
+  s.xcconfig = { "HEADER_SEARCH_PATHS" => $dir, "CLANG_CXX_LANGUAGE_STANDARD" => "c++17" }
   # s.private_header_files = '../common/simple_app.h', '../common/simple_handler.h'
 
-  s.platform = :osx, '10.11'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+  s.platform = :osx, '10.14'
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'ONLY_ACTIVE_ARCH' => 'YES' }
   s.swift_version = '5.0'
 end
