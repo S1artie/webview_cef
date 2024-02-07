@@ -2,6 +2,10 @@ cmake
 Debug
 libcef_dll
 libcef_dll_wrapper
+include
 Release
+release
 Resources
+resources
 version.txt
+jcef.exp

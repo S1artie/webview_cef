@@ -14,7 +14,7 @@ endif()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../third/download.cmake)
 # wait for unified version cef source code and prebuilt files
-prepare_prebuilt_files(${CMAKE_CURRENT_SOURCE_DIR}/../third/cef)
+#prepare_prebuilt_files(${CMAKE_CURRENT_SOURCE_DIR}/../third/cef)
 
 # This value is used when generating builds using this plugin, so it must
 # not be changed
@@ -93,7 +93,6 @@ set(webview_cef_bundled_libraries
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/chrome_elf.dll>
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/libcef.dll>
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/v8_context_snapshot.bin>
-    $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/swiftshader>
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/d3dcompiler_47.dll>
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/libEGL.dll>
     $<$<CONFIG:Release>:${CMAKE_CURRENT_SOURCE_DIR}/../third/cef/release/bin/libGLESv2.dll>
