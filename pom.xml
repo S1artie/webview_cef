@@ -85,6 +85,26 @@
                             </excludes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
+                        <fileset>
+                            <directory>third/cef</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/.gitignore</exclude>
+                            </excludes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>windows/third/cef/include</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/.gitignore</exclude>
+                            </excludes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
                     </filesets>
                 </configuration>
             </plugin>
@@ -138,6 +158,98 @@
                                             <replacement>./</replacement>
                                         </fileMapper>
                                     </fileMappers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>windows-profile</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${version.maven-dependency-plugin}</version>
+
+                        <executions>
+                            <execution>
+                                <id>extract-binaries-windows-release</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>unpack-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip>
+                                    <includeScope>provided</includeScope>
+                                    <includeGroupIds>de.gebit.jcef</includeGroupIds>
+                                    <includeArtifactIds>jcef-binaries-windows</includeArtifactIds>
+                                    <outputDirectory>${project.basedir}/third/cef/</outputDirectory>
+                                    <excludeTransitive>true</excludeTransitive>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <stripClassifier>true</stripClassifier>
+                                    <stripVersion>true</stripVersion>
+                                    <!-- only unpack the jcef, include and libcef_dll_wrapper directories -->
+                                    <includes>jcef/**,include/**,libcef_dll_wrapper/**</includes>
+                                    <fileMappers>
+                                        <!-- remove jcef prefix from file paths -->
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                            <pattern>^jcef/</pattern>
+                                            <replacement>./</replacement>
+                                        </fileMapper>
+                                        <!-- also remove libcef_dll_wrapper prefix from file paths -->
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                            <pattern>^libcef_dll_wrapper/</pattern>
+                                            <replacement>./</replacement>
+                                        </fileMapper>
+                                        <!-- move all files ending on .dll,.bin,.json to a release/bin subdirectory -->
+                                        <!-- TODO must create swiftshader directory -->
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                            <pattern>^(.*\.(dll|bin|json|exe))$</pattern>
+                                            <replacement>release/bin/$1</replacement>
+                                        </fileMapper>
+                                        <!-- move all files ending on .lib to the release subdirectory -->
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                            <pattern>^(.*\.lib)$</pattern>
+                                            <replacement>release/$1</replacement>
+                                        </fileMapper>
+                                        <!-- add a resources subdirectory in front of all files ending on .pak/dat -->
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                            <pattern>^(.*\.(pak|dat))$</pattern>
+                                            <replacement>resources/$1</replacement>
+                                        </fileMapper>
+                                    </fileMappers>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>extract-binaries-windows-includes</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>unpack-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip>
+                                    <includeScope>provided</includeScope>
+                                    <includeGroupIds>de.gebit.jcef</includeGroupIds>
+                                    <includeArtifactIds>jcef-binaries-windows</includeArtifactIds>
+                                    <outputDirectory>${project.basedir}/windows/third/cef/</outputDirectory>
+                                    <excludeTransitive>true</excludeTransitive>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <stripClassifier>true</stripClassifier>
+                                    <stripVersion>true</stripVersion>
+                                    <!-- only unpack the include directory -->
+                                    <includes>include/**</includes>
                                 </configuration>
                             </execution>
                         </executions>
