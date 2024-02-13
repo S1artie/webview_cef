@@ -270,9 +270,10 @@ FLUTTER_PLUGIN_EXPORT gboolean processKeyEventForCEF(GtkWidget *widget, GdkEvent
     }
     else if((windows_key_code == KeyboardCode::VKEY_V) && (key_event.modifiers & EVENTFLAG_CONTROL_DOWN) && (event->type == GDK_KEY_PRESS)){
       //try to fix copy request freeze process problem,(flutter engine will send a copy request when ctrl+v pressed)
-      int res = 0;
+      // int res = 0;
       if(system("xclip -o -sel clipboard | xclip -i -sel clipboard  &>/dev/null") == 0){
-        res = system("xclip -o -sel clipboard | xclip -i &>/dev/null");
+        //res = 
+        (void) system("xclip -o -sel clipboard | xclip -i &>/dev/null");
       }
     }
     else {
